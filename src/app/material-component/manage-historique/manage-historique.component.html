@@ -1,0 +1,111 @@
+
+
+<mat-card>
+  <b> <span>Historique des radiologies</span> </b>
+</mat-card>
+<hr>
+<mat-card>
+  <mat-form-field appearance="fill" >
+    <mat-label>Filtrer</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input>
+  </mat-form-field>
+</mat-card>
+<hr>
+<mat-card>
+  <div fxFlex fxLayout="column">
+
+   <form [formGroup]="searchForm">
+    <div fxLayout="row wrap">
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Rechercher par hopital</mat-label>
+      <mat-select formControlName="hopitalId" (selectionChange)="onChange($event.value)">
+          <mat-option *ngFor="let h of dataHopitals"  [value]="h.id"> {{h.hop_name}}  </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Rechercher par patient</mat-label>
+        <mat-select formControlName="patientId" (selectionChange)="onChange($event.value)">
+          <mat-option *ngFor="let p of dataPatients" [value]="p.id"> {{p.prenom}}{{p.pat_nom}}  </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Statut</mat-label>
+        <mat-select formControlName="status" (selectionChange)="onChange($event.value)">
+          <mat-option *ngFor="let p of statut" [value]="p"> {{p}}  </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+   </form>
+
+  </div>
+</mat-card>
+<hr>
+<mat-card>
+  <div>
+    <button mat-raised-button class="btn" (click)="onSearch()" mat-dialog-close>Rechercher</button>
+  </div>
+</mat-card>
+<hr>
+<div class="responsive_table">
+   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+       <ng-container matColumnDef="titre">
+        <th mat-header-cell *matHeaderCellDef>Titre</th>
+        <td mat-cell *matCellDef="let element">{{element.rad_titre}}</td>
+       </ng-container>
+       <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let element">{{element.rad_description}}</td>
+       </ng-container>
+       <ng-container matColumnDef="prix">
+        <th mat-header-cell *matHeaderCellDef>Prix</th>
+        <td mat-cell *matCellDef="let element">{{element.rad_prix}}</td>
+       </ng-container>
+
+       <ng-container matColumnDef="secretaire">
+        <th mat-header-cell *matHeaderCellDef>Secretaire</th>
+        <td mat-cell *matCellDef="let element">{{element.secretaire?.username}}</td>
+       </ng-container>
+
+       <ng-container matColumnDef="docteur">
+        <th mat-header-cell *matHeaderCellDef>Docteur</th>
+        <td mat-cell *matCellDef="let element">{{element.docteur?.username}}</td>
+       </ng-container>
+
+       <ng-container matColumnDef="hopital">
+        <th mat-header-cell *matHeaderCellDef>Hopital</th>
+        <td mat-cell *matCellDef="let element">{{element.hopital?.hop_name}}</td>
+       </ng-container>
+
+       <ng-container matColumnDef="patient">
+        <th mat-header-cell *matHeaderCellDef>Patient</th>
+        <td mat-cell *matCellDef="let element">{{element.patient?.pat_prenom}}-{{element.patient?.pat_nom}}</td>
+       </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Statut</th>
+          <td mat-cell  *matCellDef="let element"  [ngClass]="{
+            'is-red': !element.rad_status,
+            'is-green': element.rad_status
+          }"> {{getStatus(element?.rad_status)}} </td>
+         </ng-container>
+
+
+       <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element" class="action-link" >
+         <!--  <button mat-icon-button color="btn" matTooltip="Modifier" (click)="handleEditRadio(element)" >
+            <mat-icon>edit</mat-icon>
+          </button> -->
+          <button mat-icon-button style="color:#026467" matTooltip="Voir details" [routerLink]="['/workspace/radios/',element.id]" >
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+       </ng-container>
+       <tr mat-header-row *matHeaderRowDef="displayColumns;sticky:true"></tr>
+       <tr mat-row *matRowDef="let row;columns:displayColumns"></tr>
+   </table>
+   <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>

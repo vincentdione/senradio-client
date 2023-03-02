@@ -1,0 +1,40 @@
+
+.container{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 900px;
+
+}
+
+.mat-toolbar {
+  width: auto;
+  margin-bottom: 10px;
+  background-color: var(--primary-color);
+
+
+}
+
+.mat-card{
+  width: 90%;
+  -webkit-box-shadow: 5px 5px 15px 5px #000000;
+box-shadow: 5px 5px 15px 5px #000;
+}
+
+.title-center {
+   flex: 1 1 auto;
+   text-align: center;
+}
+
+mat-form-field {
+  padding: 5px;
+
+}
+
+.btn {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+
+}

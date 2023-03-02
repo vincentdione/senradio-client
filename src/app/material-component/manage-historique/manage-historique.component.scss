@@ -1,0 +1,33 @@
+.float-right {
+  float: right;
+
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+}
+
+mat-card {
+   padding: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+
+.btn{
+  background: var(--primary-color);
+  width: 100%;
+  color: white;
+}
+
+.is-red{
+  background:#fee103;
+}
+
+.is-green{
+  background:#026467;
+}
+
+.mat-form-field{
+  margin-left: 10px;
+}

@@ -1,0 +1,104 @@
+<!-- <div class="bg-image"></div>
+ --><!-- <app-best-seller></app-best-seller>
+ -->
+<!--
+<div class="wrapper sticky">
+  <nav class="navbar-fixed-top">
+    <a href="#" class="logo">
+      <mat-icon>local_hospital</mat-icon> Sen Radiologie
+    </a>
+    <ul>
+      <li> <a (click)="onSignup()" >S'inscrire</a> </li>
+      <li> <a (click)="onForgotPassword()" >mot de passe oublié?</a> </li>
+      <li> <a (click)="onLogin()" >Connecter</a> </li>
+    </ul>
+  </nav>
+</div> -->
+
+<!-- <div>
+
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center" >Se connecter</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="loginForm" >
+     <div fxFlex fxLayout="column">
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" required>
+        <mat-error *ngIf="loginForm.controls.username.touched && loginForm.controls.username.invalid">
+          <span *ngIf="loginForm.controls.username.errors.required" >This field is mandatory</span>
+          <span *ngIf="loginForm.controls.username.errors.pattern" >This field is invalid</span>
+        </mat-error>
+      </mat-form-field>
+
+
+
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Password </mat-label>
+        <input matInput formControlName="password" type="password" required>
+        <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+          <span *ngIf="loginForm.controls.password.errors.required" >This field is mandatory</span>
+          <span *ngIf="loginForm.controls.password.errors.pattern" >This field is invalid</span>
+        </mat-error>
+      </mat-form-field>
+     </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+<button mat-raised-button class="btn" type="submit" (click)="handleSubmit()" [disabled]="!(loginForm.valid && loginForm.dirty)" >Se connecter</button>
+<button mat-raised-button class="btn" mat-dialog-close>Fermer</button>
+</mat-dialog-actions>
+
+</div> -->
+
+<!-- <div class="footer" id="signup">
+  <h2>All right reserved @BTech Days</h2>
+</div> -->
+
+<div class="container">
+  <mat-card>
+   <!--  <mat-card>
+
+    </mat-card>
+    <br> -->
+    <mat-toolbar color="primary">
+      <mat-toolbar-row fxLayout="row">
+        <span class="title-center" >Se connecter</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-dialog-content class="mat-typography">
+      <form [formGroup]="loginForm" >
+         <div fxFlex fxLayout="column">
+          <mat-form-field appearance="fill"  fxFlex >
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" required>
+            <mat-error *ngIf="loginForm.controls.username.touched && loginForm.controls.username.invalid">
+              <span *ngIf="loginForm.controls.username.errors.required" >Ce champ est obligatoire</span>
+              <span *ngIf="loginForm.controls.username.errors.pattern" >Ce champ est invalide</span>
+            </mat-error>
+          </mat-form-field>
+
+
+
+          <mat-form-field appearance="fill"  fxFlex >
+            <mat-label>Password </mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+              <span *ngIf="loginForm.controls.password.errors.required" >Ce champ est obligatoire</span>
+              <span *ngIf="loginForm.controls.password.errors.pattern" >Ce champ est invalide</span>
+            </mat-error>
+          </mat-form-field>
+         </div>
+      </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="center">
+    <button mat-raised-button class="btn" type="submit" (click)="handleSubmit()" [disabled]="!(loginForm.valid && loginForm.dirty)" >Se connecter</button>
+<!--     <button mat-raised-button class="btn" style="margin-left:5px;" mat-dialog-close>Fermer</button>
+ -->    </mat-dialog-actions>
+  </mat-card>
+</div>

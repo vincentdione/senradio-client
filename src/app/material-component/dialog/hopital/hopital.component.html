@@ -1,0 +1,58 @@
+
+
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span class="title-center">{{dialogData.action}} Hopital </span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content>
+<form [formGroup]="hopitalForm" >
+  <div fxFlex fxLayout="column">
+    <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Nom de l'hopital</mat-label>
+      <input matInput formControlName="hop_name" required>
+      <mat-error *ngIf="hopitalForm.controls.hop_name.touched && hopitalForm.controls.hop_name.invalid">
+        <span *ngIf="hopitalForm.controls.hop_name.errors.required" >This field is mandatory</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Adresse</mat-label>
+      <input matInput formControlName="hop_adresse" required>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Telephone</mat-label>
+      <input matInput formControlName="hop_numeroContact"  required>
+      <mat-error *ngIf="hopitalForm.controls.hop_numeroContact.touched && hopitalForm.controls.hop_numeroContact.invalid">
+        <span *ngIf="hopitalForm.controls.hop_numeroContact.errors.required" >This field is mandatory</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill"  fxFlex>
+      <mat-label>Prix de service</mat-label>
+      <input matInput formControlName="hop_prix"  required>
+      <mat-error *ngIf="hopitalForm.controls.hop_prix.touched && hopitalForm.controls.hop_prix.invalid">
+        <span *ngIf="hopitalForm.controls.hop_prix.errors.required" >This field is mandatory</span>
+      </mat-error>
+    </mat-form-field>
+
+   <!--  <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoryId">
+          <mat-option **ngFor="let c of categories" [value]="c.id"> {{c.name}} </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+  </div>
+</form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+<button mat-raised-button class="btn" type="submit"
+(click)="handleHopitalSubmit()" [disabled]="!(hopitalForm.dirty && hopitalForm.valid)" >{{action}}</button>
+<button mat-raised-button class="btn" mat-dialog-close>Fermer</button>
+</mat-dialog-actions>
+

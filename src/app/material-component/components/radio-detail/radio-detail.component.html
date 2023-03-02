@@ -1,0 +1,53 @@
+<mat-card>
+  <b> <span>Details {{radio?.rad_titre}} </span> </b>
+  <button [disabled] mat-flat-button  *ngIf="radio?.rad_status=== false"  class="float-cours">EN_COURS</button>
+  <button [disabled] mat-flat-button  *ngIf="radio?.rad_status=== true"  class="float-termine">TERMINE</button>
+</mat-card>
+<hr>
+<mat-card (click)="onView()" >
+ <!--  <div fxFlex fxLayout="column">
+
+    <div fxLayout="row wrap">
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Nom de l'hopital</mat-label>
+        <input matInput  required>
+      </mat-form-field>
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Nom de l'hopital</mat-label>
+        <input matInput  required>
+      </mat-form-field>
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Nom de l'hopital</mat-label>
+        <input matInput  required>
+      </mat-form-field>
+      <mat-form-field appearance="fill"  fxFlex >
+        <mat-label>Nom de l'hopital</mat-label>
+        <input matInput  required>
+      </mat-form-field>
+    </div>
+  </div> -->
+
+  <img [src]="'../../../../assets/uploads/'+radio?.rad_img" class="img-preview" alt="">
+
+</mat-card>
+<hr>
+
+<mat-card>
+  <mat-dialog-content>
+    <div><p style="margin-left: 3px;">{{radio?.rad_interpretation}}</p></div>
+  <form [formGroup]="radioForm" >
+    <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Interpretation</mat-label>
+      <textarea matInput  formControlName="rad_interpretation" placeholder="Mettez votre interpretation"> </textarea>
+      <mat-error *ngIf="radioForm.controls.rad_interpretation.touched && radioForm.controls.rad_interpretation.invalid">
+        <span *ngIf="radioForm.controls.rad_interpretation.errors.required" >This field is mandatory</span>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" style="color:white"  type="submit"
+  (click)="handleRadioSave()" [disabled]="!(radioForm.dirty && radioForm.valid)" >{{action}}</button>
+  <button mat-raised-button (click)="handleRadioFinish()" color="warn" [disabled]="!(radioForm.dirty && radioForm.valid) || (radio.rad_interpretation === null || radio.rad_interpretation == '')" style="color:white;margin-left: 5px;" >Terminer</button>
+  </mat-dialog-actions>
+</mat-card>

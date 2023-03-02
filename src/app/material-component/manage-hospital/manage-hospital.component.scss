@@ -1,0 +1,19 @@
+.float-right {
+  float: right;
+
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+}
+
+mat-card {
+   padding: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+
+.btn{
+  background: var(--primary-color);
+}

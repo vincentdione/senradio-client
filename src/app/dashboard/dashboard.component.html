@@ -1,0 +1,47 @@
+
+<body>
+
+  <mat-card>
+   <b><span>Dashboard</span></b>
+ </mat-card>
+<br>
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <div class="container">
+        <h2 class="title"> Total des utilisateurs : </h2>
+        <h1 class="title"> {{dataUser?.length}} </h1>
+        <p> <button class="button" [routerLink]="['/workspace/users']" >Voir les utilisateurs</button> </p>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <div class="container">
+        <h2 class="title"> Total des Patients : </h2>
+        <h1 class="title"> {{dataPatients?.length}} </h1>
+        <p> <button class="button" [routerLink]="['/workspace/patient']" >Voir les patients</button> </p>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <div class="container">
+        <h2 class="title"> Total des hopitaux : </h2>
+        <h1 class="title"> {{dataHospitals?.length}} </h1>
+        <p> <button class="button" [routerLink]="['/workspace/hopital']" >Voir les hopitaux</button> </p>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <div class="container">
+        <h2 class="title"> Total des Analyses : </h2>
+        <h1 class="title" *ngIf="dataRadios?.length === 0"> Pas d'analyse </h1>
+        <h1 class="title" *ngIf="dataRadios?.length > 0"> {{sumRadio | currency : 'XOF' }} </h1>
+        <p> <button class="button" [routerLink]="['/workspace/radios']">Voir les analyses</button> </p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>

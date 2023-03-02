@@ -1,0 +1,80 @@
+
+
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span class="title-center">{{dialogData.action}} Examen </span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content>
+<form [formGroup]="radioForm" >
+  <div fxFlex fxLayout="column">
+    <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Titre</mat-label>
+      <input matInput formControlName="rad_titre" required>
+      <mat-error *ngIf="radioForm.controls.rad_titre.touched && radioForm.controls.rad_titre.invalid">
+        <span *ngIf="radioForm.controls.rad_titre.errors.required" >This field is mandatory</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="rad_description" required>
+      <mat-error *ngIf="radioForm.controls.rad_description.touched && radioForm.controls.rad_description.invalid">
+        <span *ngIf="radioForm.controls.rad_description.errors.required" >This field is mandatory</span>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-group">
+      <label>Image</label>
+      <img [src]="imgSrc" class="img-preview" alt="">
+      <input type="file" class="form-control"  formControlName="rad_img" accept="image/*" (change)="showPreview($event)" >
+    </div>
+
+   <!--  <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Image</mat-label>
+        <input matInput formControlName="rad_img">
+      <mat-error *ngIf="radioForm.controls.rad_img.touched && radioForm.controls.rad_img.invalid">
+        <span *ngIf="radioForm.controls.rad_img.errors.required" >This field is mandatory</span>
+      </mat-error>
+    </mat-form-field> -->
+
+  <!--   <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Interpretation</mat-label>
+      <input matInput formControlName="rad_interpretation">
+      <mat-error *ngIf="radioForm.controls.rad_interpretation.touched && radioForm.controls.rad_interpretation.invalid">
+        <span *ngIf="radioForm.controls.rad_interpretation.errors.required" >This field is mandatory</span>
+      </mat-error>
+    </mat-form-field> -->
+
+     <mat-form-field appearance="fill"  fxFlex>
+      <mat-label>Patient</mat-label>
+      <mat-select formControlName="patientId">
+          <mat-option *ngFor="let p of patients" [value]="p.id"> {{p.prenom}}{{p.pat_nom}}  </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill"  fxFlex>
+      <mat-label>Hopital</mat-label>
+      <mat-select formControlName="hopitalId" (selectionChange)="onChange($event.value)">
+          <mat-option *ngFor="let h of hopitaux"  [value]="h.id"> {{h.hop_name}}  </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Prix</mat-label>
+      <input matInput formControlName="rad_prix" [value]="oneHospital" readonly >
+    <!--   <mat-error *ngIf="radioForm.controls.rad_prix.touched && radioForm.controls.rad_prix.invalid">
+        <span *ngIf="radioForm.controls.rad_prix.errors.required" >This field is mandatory</span>
+      </mat-error> -->
+    </mat-form-field>
+
+  </div>
+</form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+<button mat-raised-button class="btn" type="submit"
+(click)="handleRadioSubmit()" [disabled]="!(radioForm.dirty && radioForm.valid)" >{{action}}</button>
+<button mat-raised-button class="btn" mat-dialog-close>Fermer</button>
+</mat-dialog-actions>

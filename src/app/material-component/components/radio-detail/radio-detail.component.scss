@@ -1,0 +1,40 @@
+.float-termine {
+  float: right;
+
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+}
+
+
+.float-cours {
+  float: right;
+
+  color: var(--secondary-color);
+  background-color: crimson;
+}
+
+mat-card {
+   padding: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+mat-form-field{
+  margin-left: 5px;
+}
+
+.btn{
+  background: var(--primary-color);
+}
+
+.img-preview {
+  height: 500px;
+  width: 100%;
+  object-fit: cover;
+}
+
+
+
+
