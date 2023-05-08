@@ -27,8 +27,8 @@
 
     <div class="form-group">
       <label>Image</label>
-      <img [src]="imgSrc" class="img-preview" alt="">
-      <input type="file" class="form-control"  formControlName="rad_img" accept="image/*" (change)="showPreview($event)" >
+      <img [src]="sanitizeImageUrl(imgSrc)"  class="img-preview" alt="">
+      <input type="file" class="form-control"  formControlName="rad_img" accept="image/x-png, image/jpeg, application/dicom" (change)="showPreview($event)" >
     </div>
 
    <!--  <mat-form-field appearance="fill"  fxFlex >
@@ -50,24 +50,26 @@
      <mat-form-field appearance="fill"  fxFlex>
       <mat-label>Patient</mat-label>
       <mat-select formControlName="patientId">
-          <mat-option *ngFor="let p of patients" [value]="p.id"> {{p.prenom}}{{p.pat_nom}}  </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill"  fxFlex>
-      <mat-label>Hopital</mat-label>
-      <mat-select formControlName="hopitalId" (selectionChange)="onChange($event.value)">
-          <mat-option *ngFor="let h of hopitaux"  [value]="h.id"> {{h.hop_name}}  </mat-option>
+          <mat-option *ngFor="let p of patients" [value]="p.id"> {{p.pat_prenom}} - {{p.pat_nom}}  </mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Hopital</mat-label>
+      <input matInput formControlName="hopitalId" [value]="oneHospital?.hop_name" readonly >
+    </mat-form-field>
+
+  <!--   <mat-form-field appearance="fill"  fxFlex>
+      <mat-label>Hopital</mat-label>
+      <mat-select formControlName="hopitalId" (selectionChange)="onChange($event.value)">
+          <mat-option *ngFor="let h of hopitaux"  [value]="h.id"> {{h.hop_name}}  </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+  <!--   <mat-form-field appearance="fill"  fxFlex >
       <mat-label>Prix</mat-label>
       <input matInput formControlName="rad_prix" [value]="oneHospital" readonly >
-    <!--   <mat-error *ngIf="radioForm.controls.rad_prix.touched && radioForm.controls.rad_prix.invalid">
-        <span *ngIf="radioForm.controls.rad_prix.errors.required" >This field is mandatory</span>
-      </mat-error> -->
-    </mat-form-field>
+    </mat-form-field> -->
 
   </div>
 </form>

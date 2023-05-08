@@ -74,8 +74,12 @@ export class HomeComponent implements OnInit {
         this.ngxService.stop();
         localStorage.setItem("token",JSON.stringify(res?.token))
         localStorage.setItem("role",JSON.stringify(res?.role[0]))
+        localStorage.setItem("userId",JSON.stringify(res?.user?.id))
+        localStorage.setItem("hopitalId",JSON.stringify(res?.user?.hopitalId))
+        console.log(res)
         console.log(res?.token)
         console.log(res?.role[0])
+        console.log(res?.user?.id)
         this.responseMessage = res?.message
         this.snackbarService.openSnackbar(this.responseMessage,"")
         this.router.navigate(["/workspace/dashboard"])

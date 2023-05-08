@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/services/user.service';
 import { ConfirmationComponent } from './../dialog/confirmation/confirmation.component';
 import { PatientComponent } from './../dialog/patient/patient.component';
 import { filter } from 'rxjs/operators';
@@ -20,22 +21,33 @@ export class ManagePatientComponent implements OnInit {
   displayColumns : string [] = ["nom","prenom","email","telephone","action"];
   dataSource:any;
   responseMessage : any;
+  user:any
+  hopitalId:any
 
   constructor(private patientService: PatientService, private router: Router,
-    private snackbarService : SnackbarService,
+    private snackbarService : SnackbarService, private userService:UserService,
     private dialog : MatDialog, private ngxService: NgxUiLoaderService) { }
 
   ngOnInit(): void {
     this.ngxService.start()
-    this.tableData()
+    this.hopitalId = localStorage.getItem("hopitalId")
+      if(this.hopitalId){
+        this.tableData()
+      }
+      else {
+        this.ngxService.stop()
+      }
   }
 
+
+
   tableData(){
-    this.patientService.getPatients().subscribe((res:any) => {
+    this.patientService.getPatientByHopital(this.hopitalId).subscribe((res:any) => {
       this.ngxService.stop()
       this.dataSource = new MatTableDataSource(res)
     },(error)=>{
       this.ngxService.stop()
+      console.log(error)
       if(error.error?.message){
         this.responseMessage = error.error?.message
     }
@@ -44,6 +56,7 @@ export class ManagePatientComponent implements OnInit {
     }
     this.snackbarService.openSnackbar(this.responseMessage,GlobalConstants.error)
     })
+
   }
 
   applyFilter(event:Event){

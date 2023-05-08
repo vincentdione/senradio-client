@@ -32,7 +32,10 @@ export class PatientService {
 
   getPatients(){
     return this.httpClient.get(this.url+"/patients/get/")
+  }
 
+  getPatientByHopital(id:any){
+    return this.httpClient.get(this.url+"/patients/get/hopital/"+id)
   }
 
 }

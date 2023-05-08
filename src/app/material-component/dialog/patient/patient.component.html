@@ -10,6 +10,10 @@
 <form [formGroup]="patientForm" >
   <div fxFlex fxLayout="column">
     <mat-form-field appearance="fill"  fxFlex >
+    <mat-label>Reference</mat-label>
+      <input matInput  [value]="reference" readonly >
+    </mat-form-field>
+    <mat-form-field appearance="fill"  fxFlex >
       <mat-label>Nom</mat-label>
       <input matInput formControlName="pat_nom" required>
       <mat-error *ngIf="patientForm.controls.pat_nom.touched && patientForm.controls.pat_nom.invalid">

@@ -11,8 +11,13 @@ export class RadioService {
   constructor(private httpClient : HttpClient) { }
 
   addRadio(data:any){
-    console.log("radio"+JSON.stringify(data));
     return this.httpClient.post(this.url+"/radios/add/", data,{
+      headers: new HttpHeaders().set( 'Content-Type','application/json')
+    })
+  }
+
+  generateRadio(data:any){
+    return this.httpClient.post(this.url+"/radios/generate/", data,{
       headers: new HttpHeaders().set( 'Content-Type','application/json')
     })
   }
@@ -33,6 +38,15 @@ export class RadioService {
 
   getRadios(){
     return this.httpClient.get(this.url+"/radios/get/")
+  }
+
+
+  getRadioByHopital(id:any){
+    return this.httpClient.get(this.url+"/radios/get/hopital/"+id)
+  }
+
+  getRadioByDoctorHopital(id:any,idDoc:any){
+    return this.httpClient.get(this.url+`/radios/get/docteur/${id}/${idDoc}`)
   }
 
   getDetails(id:any){

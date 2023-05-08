@@ -1,7 +1,9 @@
 
 
-<mat-card>
+<mat-card class="top">
   <b> <span>Historique des radiologies</span> </b>
+  <b> <h1>{{total | currency : 'XOF'}}</h1> </b>
+  <button mat-flat-button  class="float-right" (click)="handleImport()">Importer</button>
 </mat-card>
 <hr>
 <mat-card>
@@ -31,7 +33,8 @@
       <mat-form-field appearance="fill"  fxFlex >
         <mat-label>Statut</mat-label>
         <mat-select formControlName="status" (selectionChange)="onChange($event.value)">
-          <mat-option *ngFor="let p of statut" [value]="p"> {{p}}  </mat-option>
+          <mat-option  [value]="false"> EN_COURS  </mat-option>
+          <mat-option  [value]="true"> TERMINE  </mat-option>
         </mat-select>
       </mat-form-field>
     </div>

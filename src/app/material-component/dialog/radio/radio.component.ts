@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
 import jwt_decode from 'jwt-decode'
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-radio',
@@ -30,12 +31,12 @@ export class RadioComponent implements OnInit {
   docteur : any;
   tokenPayload : any;
 
-  imgSrc : any = './assets/img/default-image.jpeg';
   selectedImg : any;
   nameFile : any;
+  hopitalId:any
 
   constructor(@Inject(MAT_DIALOG_DATA) public dialogData: any,
-  private formBuilder : FormBuilder,
+  private formBuilder : FormBuilder,private sanitizer: DomSanitizer,
   private userService:UserService,
   private radioService:RadioService,
   private patientService:PatientService,
@@ -43,11 +44,25 @@ export class RadioComponent implements OnInit {
   private dialogRef: MatDialogRef<RadioComponent>,
   private snackbarService: SnackbarService) { }
 
+  imgSrc : any = this.sanitizer.bypassSecurityTrustStyle(`url('./assets/img/default-image.jpeg')`); ;
+
+
   ngOnInit(): void {
 
     const token : any = localStorage.getItem("token");
     this.secretaire = localStorage.getItem("userId")
     this.docteur = localStorage.getItem("userId")
+    this.hopitalId = localStorage.getItem("hopitalId")
+
+
+    this.hopitalService.getOne(this.hopitalId).subscribe((res:any) => {
+      this.oneHospital = res
+      console.log(res)
+      console.log(this.oneHospital)
+     // this.radioForm.controls['rad_prix'].setValue(res.hop_prix)
+  },(error)=>{
+    console.log("error"+error)
+  })
 
     console.log("localstore " + this.secretaire)
     console.log(localStorage.getItem("userId"));
@@ -59,7 +74,7 @@ export class RadioComponent implements OnInit {
  */   rad_img :[null],
       hopitalId :[null],
       patientId :[null],
-      rad_prix :[null],
+     // rad_prix :[null],
     })
 
     if(this.dialogData.action === "Modifier"){
@@ -70,6 +85,12 @@ export class RadioComponent implements OnInit {
     this.getPatients()
     this.getHospitals()
   }
+
+
+  sanitizeImageUrl(imageUrl: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+}
+
 
 
   getPatients(){
@@ -120,6 +141,8 @@ export class RadioComponent implements OnInit {
     //this.radioForm.setValue('hopitalId')
    // this.radioForm.addControl('hop_prix',[value.hop_prix]);
    dataForm.append("file", this.selectedImg);
+   //formData.append('libelle', this.myForm.get('libelle').value);
+
 
    this.radioService.uploadImg(dataForm).subscribe((res:any) => {
        console.log("================================================")
@@ -130,10 +153,10 @@ export class RadioComponent implements OnInit {
         rad_description :formData.rad_description,
         rad_img :this.nameFile,
   /*       rad_interpretation :formData.rad_interpretation,
-   */   hopitalId :formData.hopitalId,
+   */   hopitalId :this.hopitalId,
         patientId :formData.patientId,
         secretaireId : this.secretaire,
-        rad_prix: this.oneHospital
+        rad_prix: this.oneHospital?.hop_prix
       }
       console.log("---------------------------")
       console.log(data)
@@ -180,10 +203,10 @@ export class RadioComponent implements OnInit {
         rad_description :formData.rad_description,
         rad_img :this.nameFile,
 /*      rad_interpretation :formData.rad_interpretation,
- */     hopitalId :formData.hopitalId,
+ */     hopitalId :this.hopitalId,
         patientId :formData.patientId,
         docteurId : this.docteur,
-        rad_prix: this.oneHospital,
+        rad_prix: this.oneHospital?.hop_prix,
         rad_status : true
       }
       console.log("Update user docteur")
@@ -196,9 +219,9 @@ export class RadioComponent implements OnInit {
         rad_description :formData.rad_description,
         rad_img :this.nameFile,
 /*         rad_interpretation :formData.rad_interpretation,
- */     hopitalId :formData.hopitalId,
+ */     hopitalId :this.hopitalId,
         patientId :formData.patientId,
-        rad_prix: this.oneHospital
+        rad_prix: this.oneHospital?.hop_prix
 
       }
       console.log("Update secretaire")
@@ -229,7 +252,7 @@ export class RadioComponent implements OnInit {
    /*  this.radioForm.addControl('hop_prix',[value.hop])
     this.radioForm.controls['hopitalId'].id.setValue(value.id)
     this.radioForm.controls['hopitalId'].id.setValue(value.id) */
-    this.hopitalService.getOne(value).subscribe((res:any) => {
+    this.hopitalService.getOne(this.hopitalId).subscribe((res:any) => {
         this.oneHospital = res.hop_prix
         console.log(res)
         console.log(this.oneHospital)

@@ -43,6 +43,8 @@ export class LoginComponent implements OnInit {
     this.userService.login(data).subscribe((res:any) => {
         this.ngxService.stop();
         this.dialogRef.close();
+        console.log(res)
+
         localStorage.setItem("token",JSON.stringify(res?.token))
         localStorage.setItem("role",JSON.stringify(res?.role[0]))
         localStorage.setItem("userId",JSON.stringify(res?.user?.id))

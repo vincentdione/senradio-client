@@ -16,9 +16,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageUsersComponent implements OnInit {
 
-  displayColumns : string [] = ["nom","prenom","email","telephone","username","role","action"];
+  displayColumns : string [] = ["nom","prenom","telephone","username","role","hopital","action"];
   dataSource:any;
   responseMessage : any;
+  hopitalId : any
 
   constructor(private userService: UserService, private router: Router,
     private snackbarService : SnackbarService,
@@ -26,11 +27,12 @@ export class ManageUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.ngxService.start()
+    this.hopitalId = localStorage.getItem("hopitalId")
     this.tableData()
   }
 
   tableData(){
-    this.userService.getUsers().subscribe((res:any) => {
+    this.userService.getUsersByHopital(this.hopitalId).subscribe((res:any) => {
       this.ngxService.stop()
       this.dataSource = new MatTableDataSource(res)
       console.log(this.dataSource)

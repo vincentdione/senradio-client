@@ -23,6 +23,10 @@ import { RadioComponent } from './dialog/radio/radio.component';
 import { RadioDetailComponent } from './components/radio-detail/radio-detail.component';
 import { ImgViewComponent } from './components/img-view/img-view.component';
 import { ManageHistoriqueComponent } from './manage-historique/manage-historique.component';
+import { ManageFactureComponent } from './manage-facture/manage-facture.component';
+import { ImputerDocteurComponent } from './components/imputer-docteur/imputer-docteur.component';
+import { ManageRadioDocteurComponent } from './manage-radio-docteur/manage-radio-docteur.component';
+import { ManageUsersAdminComponent } from './manage-users-admin/manage-users-admin.component';
 
 @NgModule({
   imports: [
@@ -50,7 +54,11 @@ import { ManageHistoriqueComponent } from './manage-historique/manage-historique
     RadioComponent,
     RadioDetailComponent,
     ImgViewComponent,
-    ManageHistoriqueComponent
+    ManageHistoriqueComponent,
+    ManageFactureComponent,
+    ImputerDocteurComponent,
+    ManageRadioDocteurComponent,
+    ManageUsersAdminComponent
   ]
 })
 export class MaterialComponentsModule {}

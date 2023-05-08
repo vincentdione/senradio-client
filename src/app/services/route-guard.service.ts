@@ -37,8 +37,9 @@ export class RouteGuardService {
           checkRole = true;
         }
   }
+
   console.log("tokenPayload"+tokenPayload)
-  if(tokenPayload.role[0] == ["ROLE_DOCTEUR"] || tokenPayload.role[0] == ["ROLE_ADMIN"] || tokenPayload.role[0] == ["ROLE_SECRETAIRE"]){
+  if(tokenPayload.role[0] == ["ROLE_DOCTEUR"] || tokenPayload.role[0] == ["ROLE_ADMIN"] ||  tokenPayload.role[0] == ["ROLE_SUPER_ADMIN"] || tokenPayload.role[0] == ["ROLE_SECRETAIRE"]){
     if(this.authService.isAuthencated() && checkRole ){
       return true;
     }

@@ -48,6 +48,7 @@
 <mat-dialog-actions align="center">
   <button mat-raised-button color="primary" style="color:white"  type="submit"
   (click)="handleRadioSave()" [disabled]="!(radioForm.dirty && radioForm.valid)" >{{action}}</button>
-  <button mat-raised-button (click)="handleRadioFinish()" color="warn" [disabled]="!(radioForm.dirty && radioForm.valid) || (radio.rad_interpretation === null || radio.rad_interpretation == '')" style="color:white;margin-left: 5px;" >Terminer</button>
+  <button mat-raised-button *ngIf="radio.rad_status == true" (click)="handleRadioFinish()" color="warn" [disabled]="!(radioForm.dirty && radioForm.valid)" style="color:white;margin-left: 5px;" >Terminer</button>
+  <button mat-raised-button *ngIf="radio.rad_status == false" (click)="handleRadioFinish()" color="warn"  style="color:white;margin-left: 5px;" >Terminer</button>
   </mat-dialog-actions>
 </mat-card>

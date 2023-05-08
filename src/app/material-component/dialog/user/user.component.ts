@@ -1,3 +1,5 @@
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { HopitalService } from './../../../services/hopital.service';
 import { GlobalConstants } from './../../../shared/global-constants';
 import { SnackbarService } from './../../../services/snackbar.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -18,13 +20,21 @@ export class UserComponent implements OnInit {
   dialogAction : any = "Ajouter"
   action :any = "Ajouter";
   responseMessage:any;
-  roles : any [] = [];
+  userRoles : any [] = [];
+  hospitals : any [] = [];
+  onRole : any
+  role : any
 
   constructor(@Inject(MAT_DIALOG_DATA) public dialogData: any,
   private formBuilder : FormBuilder,
-  private userService:UserService,private dialogRef: MatDialogRef<UserComponent>,private snackbarService: SnackbarService) { }
+  private userService:UserService,private hopitalService: HopitalService,
+  private dialogRef: MatDialogRef<UserComponent>,private snackbarService: SnackbarService,private ngxService:NgxUiLoaderService) { }
 
   ngOnInit(): void {
+
+    this.role = localStorage.getItem("role")
+    this.role = JSON.parse(this.role)
+
 
     this.userForm = this.formBuilder.group({
       nom :[null,[Validators.required]],
@@ -36,7 +46,8 @@ export class UserComponent implements OnInit {
       email :[null,[Validators.required,Validators.pattern(GlobalConstants.emailRegex)]],
       password :[null,[Validators.required]],
       dateNaissance :[null],
-      role :[null],
+      roles :[null],
+      hopitalId:[null,[Validators.required]],
     })
 
     if(this.dialogData.action === "Modifier"){
@@ -45,12 +56,27 @@ export class UserComponent implements OnInit {
       this.userForm.patchValue(this.dialogData.data)
     }
     this.getRoles()
+    this.getHopitals()
   }
 
 
   getRoles(){
     this.userService.getRoles().subscribe((res:any)=>{
-      this.roles = res
+      this.userRoles = res
+    },(error)=>{
+      if(error.error?.message){
+          this.responseMessage = error.error?.message
+      }
+      else {
+        this.responseMessage = GlobalConstants.genericErrorMessage
+      }
+      this.snackbarService.openSnackbar(this.responseMessage,GlobalConstants.error)
+    })
+  }
+
+  getHopitals(){
+    this.hopitalService.getHospitals().subscribe((res:any)=>{
+      this.hospitals = res
     },(error)=>{
       if(error.error?.message){
           this.responseMessage = error.error?.message
@@ -76,6 +102,8 @@ export class UserComponent implements OnInit {
   }
 
   add(){
+
+    this.ngxService.start()
     var formData = this.userForm.value;
 
     var data = {
@@ -88,15 +116,18 @@ export class UserComponent implements OnInit {
       email :formData.email,
       password :formData.password,
       dateNaissance :formData.dateNaissance,
-      role : formData.role,
+      roles : formData.roles,
+      hopitalId:formData.hopitalId,
     }
 
     this.userService.addUser(data).subscribe((res:any)=>{
+      this.ngxService.stop()
        this.dialogRef.close()
        this.onAddUser.emit();
        this.responseMessage = res.message
        this.snackbarService.openSnackbar(this.responseMessage,"success")
     },(error)=>{
+      this.ngxService.stop()
       this.dialogRef.close();
       if(error.error?.message){
           this.responseMessage = error.error?.message
@@ -125,9 +156,9 @@ export class UserComponent implements OnInit {
       telephone :formData.telephone,
       telephone2 :formData.telephone2,
       email :formData.email,
-      password :formData.password,
       dateNaissance :formData.dateNaissance,
-      role : formData.role,
+      roles : formData.roles,
+      hopitalId:formData.hopitalId,
     }
 
     console.log("Update user")
@@ -152,6 +183,16 @@ export class UserComponent implements OnInit {
 
   }
 
+  onChange(value:any) {
+    /*  this.radioForm.addControl('hop_prix',[value.hop])
+     this.radioForm.controls['hopitalId'].id.setValue(value.id)
+     this.radioForm.controls['hopitalId'].id.setValue(value.id) */
+     this.userService.getOneRole(value).subscribe((res:any) => {
+         console.log(res)
+     },(error)=>{
+       console.log("error"+error)
+     })
+ }
 
 
 }

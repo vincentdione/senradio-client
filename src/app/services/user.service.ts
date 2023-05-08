@@ -87,6 +87,23 @@ export class UserService {
     return this.httpClient.get(this.url+"/users/get/")
   }
 
+  getUsersByHopital(id:any){
+    return this.httpClient.get(this.url+"/users/get/"+id)
+  }
+
+  getUsersByRole(id:any){
+    return this.httpClient.get(this.url+"/users/get/roles/"+id)
+  }
+
+  getOne(id:any){
+    console.log(id)
+    return this.httpClient.get(this.url+"/users/find/"+id)
+  }
+
+  getOneRole(id:any){
+    return this.httpClient.get(this.url+"/users/find/role/"+id)
+  }
+
 
   getRoles(){
     return this.httpClient.get(this.url+"/users/roles/")
@@ -99,6 +116,7 @@ export class UserService {
     });
     return this.httpClient.get(this.url+"/auth/checkToken",{headers:headers})
    }
+
 
 
 }

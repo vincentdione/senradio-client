@@ -67,20 +67,6 @@ export class DashboardComponent implements AfterViewInit {
     })
 
 
-    this.patientService.getPatients().subscribe((res:any) => {
-      this.ngxService.stop()
-      this.dataPatients =res
-    },(error)=>{
-      this.ngxService.stop()
-      console.log(error)
-      if(error.error?.message){
-        this.responseMessage = error.error?.message
-    }
-    else {
-      this.responseMessage = GlobalConstants.genericErrorMessage
-    }
-    this.snackbarService.openSnackbar(this.responseMessage,GlobalConstants.error)
-    })
 
 
 

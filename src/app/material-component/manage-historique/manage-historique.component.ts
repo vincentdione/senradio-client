@@ -10,6 +10,7 @@ import { RadioService } from './../../services/radio.service';
 import { HopitalService } from './../../services/hopital.service';
 import { PatientService } from './../../services/patient.service';
 import { Component, OnInit } from '@angular/core';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-manage-historique',
@@ -19,7 +20,7 @@ import { Component, OnInit } from '@angular/core';
 export class ManageHistoriqueComponent implements OnInit {
 
 
-  displayColumns : string [] = ["titre","description","prix","secretaire","patient","hopital","status","action"];
+  displayColumns : string [] = ["titre","description","prix","secretaire","docteur","patient","hopital","status","action"];
   dataSource:any;
   responseMessage : any;
   dataPatients : any [] = [];
@@ -27,6 +28,10 @@ export class ManageHistoriqueComponent implements OnInit {
   statut : any[] = ["EN_COURS","TERMINE"];
 
   searchForm: any = FormGroup
+
+  total : number = 0;
+  radioDataExport:any;
+
 
   constructor(private patientService: PatientService,private hopitalService: HopitalService,private radioService:RadioService, private router: Router,
     private snackbarService : SnackbarService, private ngxService: NgxUiLoaderService,private formBuilder: FormBuilder) { }
@@ -44,8 +49,11 @@ export class ManageHistoriqueComponent implements OnInit {
   tableData(){
     this.radioService.getRadios().subscribe((res:any) => {
       this.ngxService.stop()
+      this.radioDataExport = res
       this.dataSource = new MatTableDataSource(res)
-      console.log(this.dataSource)
+      this.total = res.reduce((acc:number, val:any) => {
+        return acc + parseInt(val.rad_prix);
+      }, 0);
     },(error)=>{
       this.ngxService.stop()
       if(error.error?.message){
@@ -102,7 +110,7 @@ export class ManageHistoriqueComponent implements OnInit {
 
 
   onSearch(){
-      //this.ngxService.start()
+      this.ngxService.start()
       var formData = this.searchForm.value
       var data = {
         hopitalId: formData.hopitalId,
@@ -113,18 +121,34 @@ export class ManageHistoriqueComponent implements OnInit {
       console.log(data)
 
       this.radioService.searchRadio(data).subscribe((res:any) =>{
-        //this.ngxService.stop()
-        console.log(" =================================================================")
-        console.log(res)
+        this.ngxService.stop()
+        this.radioDataExport = res
         this.dataSource = new MatTableDataSource(res)
+        this.total = res.reduce((acc:number, val:any) => {
+          return acc + parseInt(val.rad_prix);
+        }, 0);
 
       },(error)=>{
+        this.ngxService.stop()
+        this.snackbarService.openSnackbar("Veuillez selectionner un champ pour rechercher",GlobalConstants.error)
           console.log(error)
       })
 
   }
 
 
+  handleImport(){
+     this.radioService.generateRadio(this.radioDataExport).subscribe((res:any) => {
+      console.log("res")
+      //const file = new Blob([res], { type: 'application/pdf' });
+
+      saveAs(res,URL.createObjectURL(res?.uuid));
+      this.snackbarService.openSnackbar("Importation réussie avec success","")
+    },(error:any)=>{
+      this.snackbarService.openSnackbar("Erreur lors de l'importation",GlobalConstants.error)
+      console.log(error)
+     })
+  }
 
 
 

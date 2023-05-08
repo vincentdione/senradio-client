@@ -1,3 +1,4 @@
+import { ImputerDocteurComponent } from './../components/imputer-docteur/imputer-docteur.component';
 import { ConfirmationComponent } from './../dialog/confirmation/confirmation.component';
 import { RadioComponent } from './../dialog/radio/radio.component';
 import { GlobalConstants } from './../../shared/global-constants';
@@ -18,9 +19,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageRadioComponent implements OnInit {
 
-  displayColumns : string [] = ["titre","description","prix","secretaire","patient","hopital","status","action"];
+  displayColumns : string [] = ["titre","description","prix","secretaire","docteur","patient","hopital","status","action"];
   dataSource:any;
   responseMessage : any;
+  hopitalId : any
 
   constructor(private patientService: PatientService,private hopitalService: HopitalService,private radioService:RadioService, private router: Router,
     private snackbarService : SnackbarService,
@@ -28,11 +30,17 @@ export class ManageRadioComponent implements OnInit {
 
   ngOnInit(): void {
     this.ngxService.start()
-    this.tableData()
+    this.hopitalId = localStorage.getItem("hopitalId")
+    if(this.hopitalId){
+      this.tableData()
+    }
+    else {
+      this.ngxService.stop()
+    }
   }
 
   tableData(){
-    this.radioService.getRadios().subscribe((res:any) => {
+    this.radioService.getRadioByHopital(this.hopitalId).subscribe((res:any) => {
       this.ngxService.stop()
       this.dataSource = new MatTableDataSource(res)
       console.log(this.dataSource)
@@ -134,6 +142,24 @@ export class ManageRadioComponent implements OnInit {
      else {
       return "TERMINE"
      }
+  }
+
+  onImpute(value:any){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action:"Imputer l'examen à un docteur",
+      idRadio : value.id
+    }
+    dialogConfig.width = "1000px"
+    const dialogRef = this.dialog.open(ImputerDocteurComponent,dialogConfig);
+    this.router.events.subscribe(()=>{
+      dialogRef.close();
+    })
+    const sub = dialogRef.componentInstance.onImputeRadio.subscribe(
+      (res:any)=>{
+        this.tableData()
+      }
+    )
   }
 
 }

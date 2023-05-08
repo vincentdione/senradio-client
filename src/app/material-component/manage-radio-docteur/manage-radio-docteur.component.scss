@@ -9,25 +9,13 @@ mat-card {
    padding: 20px;
 }
 
-.top{
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
 table {
   width: 100%;
-}
-
-h1{
-  color: rgb(246, 34, 76);
 }
 
 
 .btn{
   background: var(--primary-color);
-  width: 100%;
-  color: white;
 }
 
 .is-red{
@@ -36,8 +24,4 @@ h1{
 
 .is-green{
   background:#026467;
-}
-
-.mat-form-field{
-  margin-left: 10px;
 }

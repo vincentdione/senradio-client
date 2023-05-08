@@ -41,10 +41,25 @@
       </mat-error>
     </mat-form-field>
 
-     <mat-form-field appearance="fill"  fxFlex >
+     <mat-form-field *ngIf="role === 'ROLE_SUPER_ADMIN' " appearance="fill"  fxFlex >
       <mat-label>Role</mat-label>
-      <mat-select formControlName="role">
-          <mat-option *ngFor="let role of roles" [value]="role.name"> {{role.name}} </mat-option>
+      <mat-select formControlName="roles"  (selectionChange)="onChange($event.value)">
+          <mat-option *ngFor="let role of userRoles" [value]="role.id"> {{role.name}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="role == 'ROLE_ADMIN' " appearance="fill"  fxFlex >
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="roles"  (selectionChange)="onChange($event.value)">
+        <mat-option  [value]="1"> docteur </mat-option>
+        <mat-option  [value]="2"> secretaire </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill"  fxFlex >
+      <mat-label>Hopital</mat-label>
+      <mat-select formControlName="hopitalId">
+          <mat-option *ngFor="let hopital of hospitals" [value]="hopital.id"> {{hopital?.hop_name}} </mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -61,9 +76,17 @@
       <input matInput formControlName="adresse">
     </mat-form-field>
 
-    <mat-form-field appearance="fill"  fxFlex >
-      <mat-label>Date Naissance</mat-label>
-      <input matInput formControlName="dateNaissance">
+    <mat-form-field appearance="fill" class="example-form-field">
+      <mat-label>Date de naissance</mat-label>
+      <input matInput formControlName="dateNaissance" [matDatepicker]="datepicker">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #datepicker>
+        <mat-datepicker-actions>
+          <button mat-button matDatepickerCancel>Annuler</button>
+          <button mat-raised-button color="primary" matDatepickerApply>Choisir</button>
+        </mat-datepicker-actions>
+      </mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill"  fxFlex >
@@ -85,6 +108,6 @@
 
 <mat-dialog-actions align="center">
 <button mat-raised-button class="btn" type="submit"
-(click)="handleUserSubmit()" [disabled]="!(userForm.dirty && userForm.valid)" >{{action}}</button>
+(click)="handleUserSubmit()" [disabled]="!(userForm.dirty && userForm.valid) && !userForm.value.username" >{{action}}</button>
 <button mat-raised-button class="btn" mat-dialog-close>Fermer</button>
 </mat-dialog-actions>

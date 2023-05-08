@@ -12,7 +12,8 @@
                 Workspace Sen Radiologie
             </span>
         </div>
-        <span fxFlex></span>
+        <span fxFlex>  </span>
+        <h2>{{user?.username  | uppercase}} - {{user?.roles[0]?.name | uppercase }} - {{user?.hopital?.hop_name | uppercase }}  </h2>
         <app-header></app-header>
     </mat-toolbar>
     <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
